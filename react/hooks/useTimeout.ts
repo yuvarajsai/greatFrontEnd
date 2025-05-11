@@ -16,6 +16,8 @@ delay: number | null: The delay in milliseconds before the invocation of the cal
 Returns:
 Nothing.
 
+https://www.greatfrontend.com/questions/javascript/use-timeout?framework=react
+
 */
 import { useEffect, useRef } from "react";
 
