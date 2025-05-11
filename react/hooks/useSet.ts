@@ -22,7 +22,7 @@ https://www.greatfrontend.com/questions/javascript/use-set?framework=react
 
 */
 
-import { useState, useMemo, useCallback, useRef } from "react";
+import { useState, useCallback, useRef } from "react";
 export interface UseSetReturn<T> {
 	set: Readonly<Set<T>>;
 	add: (key: T) => void;
@@ -36,15 +36,12 @@ export default function useSet<T>(
 	initialState = new Set<T>()
 ): UseSetReturn<T> {
 	const initialStateRef = useRef(initialState);
+	const [setData, setSetData] = useState(initialStateRef.current);
 
-	// IMP: initialize the set state with new Set()
-	const [setData, setSetData] = useState(new Set(initialStateRef.current));
-
-	const set = useMemo(() => setData, [setData]);
+	const set = setData;
 	const add = useCallback(
 		(key: T) => {
 			setSetData((prev) => {
-				// IMP: Do NOT directly mutate prev. Instead, create a new set from prev and mutate it.
 				const next = new Set(prev);
 				next.add(key);
 				return next;
@@ -56,7 +53,6 @@ export default function useSet<T>(
 	const remove = useCallback(
 		(key: T) => {
 			setSetData((prev) => {
-				// IMP: Do NOT directly mutate prev. Instead, create a new set from prev and mutate it.
 				const next = new Set(prev);
 				next.delete(key);
 				return next;
@@ -81,22 +77,7 @@ export default function useSet<T>(
 	);
 
 	const reset = useCallback(() => {
-		// ERR: For some reason this is failing below testcase.
-		/*
-    test('reset must reset to the initial set object', () => {
-      const initialValue = new Set([1, 2, 3]);
-
-      const { result } = renderHook(() => useSet(initialValue));
-
-      act(() => {
-        result.current.reset();
-      });
-
-      expect(result.current.set).toBe(initialValue);
-    });
-    */
-
-		setSetData(() => new Set(initialStateRef.current));
+		setSetData(initialStateRef.current);
 	}, [setSetData, initialStateRef]);
 
 	const clear = useCallback(() => {
