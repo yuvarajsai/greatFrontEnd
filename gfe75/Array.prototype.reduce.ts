@@ -27,16 +27,16 @@ Array.prototype.myReduce = function (callbackFn, initialValue) {
 	}
 
 	// type safe
-	let computedValue = initialValue ?? this[0];
+	let accumulator = initialValue ?? this[0];
 
 	// IMP: Array can be accessed using this.
 	this.forEach((ele, index) => {
 		// edge case where initial value is not defined, the set the first value of the array
 		if (initialValue === undefined && index === 0) {
-			computedValue = this[0];
+			accumulator = this[0];
 		} else {
-			computedValue = callbackFn(computedValue, ele, index, this);
+			accumulator = callbackFn(accumulator, ele, index, this);
 		}
 	});
-	return computedValue;
+	return accumulator;
 };
