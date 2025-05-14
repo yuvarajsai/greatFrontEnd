@@ -1,4 +1,6 @@
-// https://www.greatfrontend.com/interviews/study/blind75/questions/algo/array-find-missing-number-in-sequence
+/*
+ https://www.greatfrontend.com/interviews/study/blind75/questions/algo/array-find-missing-number-in-sequence
+*/
 
 export default function findMissingNumberInSequence(numbers: number[]): number {
 	const highestNumber = numbers.length;
